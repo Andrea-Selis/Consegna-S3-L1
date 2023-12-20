@@ -1,0 +1,59 @@
+-- tabella AEREOPORTO
+CREATE TABLE AEROPORTO (
+  IDAereoporto VARCHAR(5) PRIMARY KEY NOT NULL,
+  Citta TEXT NOT NULL,
+  Nazione TEXT NOT NULL,
+  NumPiste TEXT NOT NULL
+);
+INSERT INTO AEROPORTO VALUES ('45896','Torino','Italia','?');
+INSERT INTO AEROPORTO VALUES ('49277','Bologna','Italia','21');
+INSERT INTO AEROPORTO VALUES ('97978','Palermo','Italia','20');
+INSERT INTO AEROPORTO VALUES ('77747','Amsterdam','Olanda','67');
+INSERT INTO AEROPORTO VALUES ('76830','Londra','Regno Unito','77');
+INSERT INTO AEROPORTO VALUES ('33984','Francoforte','Germania','45');
+INSERT INTO AEROPORTO VALUES ('88376','Barcellona','Spagna','68');
+INSERT INTO AEROPORTO VALUES ('74658','Dublino','Irlanda','56');
+INSERT INTO AEROPORTO VALUES ('99363','Atene','Grecia','54');
+SELECT * FROM AEROPORTO;
+SELECT * FROM AEROPORTO WHERE NumPiste='?';
+
+-- tabella VOLO
+CREATE TABLE VOLO (
+    IdVolo VARCHAR(5) PRIMARY KEY NOT NULL,
+    GiornoSett TEXT NOT NULL,
+    CittaPart TEXT NOT NULL,
+    OraPart TIME NOT NULL,
+    CittaArr TEXT NOT NULL,
+    OraArr TIME NOT NULL,
+    TipoAereo TEXT NOT NULL
+);
+INSERT INTO VOLO VALUES ('AZ274','Mercoledi','Torino','23:00','Cagliari','23:25','Boeing 737NG');
+INSERT INTO VOLO VALUES ('AJ456','Martedi','Bologna','14:25','Amsterdam','15:55','Boeing 737NG');
+INSERT INTO VOLO VALUES ('AZ275','Sabato','Milano','23:00','Cagliari','23:25','Boeing 737');
+INSERT INTO VOLO VALUES ('AJ458','Giovedi','Napoli','14:25','Milano','12:55','Boeing 737NG');
+INSERT INTO VOLO VALUES ('GJ738','Martedi','Cagliari','13:25','Amsterdam','14:23','Boeing 737');
+INSERT INTO VOLO VALUES ('AJ460','Mercoledi','Parigi','14:25','Bologna','15:55','Boeing 737NG');
+INSERT INTO VOLO VALUES ('HG868','Lunedi','Barcellona','14:25','Amsterdam','15:55','Boeing 737NG');
+INSERT INTO VOLO VALUES ('FH858','Venerdi','Bologna','14:25','Cuneo','15:55','Boeing 737NG');
+INSERT INTO VOLO VALUES ('HG757','Domenica','Lecce','07:15','Roma','08:15','Boeing 737');
+SELECT * FROM VOLO;
+SELECT TipoAereo FROM VOLO WHERE CittaPart='Torino';
+SELECT CittaPart FROM VOLO WHERE CittaArr='Bologna';
+SELECT CittaPart,CittaArr FROM VOLO WHERE IdVolo='AZ274';
+
+-- tabella AEREO
+CREATE TABLE AEREO (
+    TipoAereo TEXT NOT NULL,
+    NumPasseggeri CHAR(3) NOT NULL,
+    QtaMerci CHAR(7) NOT NULL
+);
+INSERT INTO AEREO VALUES ('Boeing737','120','13');
+INSERT INTO AEREO VALUES ('Boeing737GN','240','15');
+INSERT INTO AEREO VALUES ('Boeing737','320','16');
+INSERT INTO AEREO VALUES ('Boeing737','140','17');
+INSERT INTO AEREO VALUES ('Boeing737','128','13');
+INSERT INTO AEREO VALUES ('Boeing737','180','11');
+INSERT INTO AEREO VALUES ('Boeing737','190','10');
+INSERT INTO AEREO VALUES ('Boeing737','345','11');
+INSERT INTO AEREO VALUES ('Boeing737','123','6');
+SELECT * FROM AEREO;

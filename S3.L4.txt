@@ -1,0 +1,89 @@
+CREATE TABLE Dipartimento (
+    id_dipartimento INT PRIMARY KEY,
+    nome_dip TEXT,
+    id_manager INT,
+    id_location INT
+);
+CREATE TABLE Dipendente (
+    id INT PRIMARY KEY,
+    nome TEXT,
+    cognome TEXT,
+    email VARCHAR(255),
+    numerotelefono VARCHAR(15),
+    data_assunzione DATE,
+    id_lavoro INT,
+    salario DECIMAL(10, 2),
+    id_manager INT,
+    id_dipartimento INT,
+    FOREIGN KEY (id_dipartimento) REFERENCES Dipartimento(id_dipartimento)
+);
+-- Inserimento dati nella tabella Dipartimento
+INSERT INTO Dipartimento (id_dipartimento, nome_dip, id_manager, id_location)
+VALUES (1, 'Amministrazione', 101, 201),
+       (2, 'Sviluppo', 102, 202),
+       (3, 'Vendite', 103, 203);
+
+-- Inserimento dati nella tabella Dipendente
+INSERT INTO Dipendente (id, nome, cognome, email, numerotelefono, data_assunzione, id_lavoro, salario, id_manager, id_dipartimento)
+VALUES (1, 'Carlo', 'Bianco', 'carlo.bianco@email.com', '123456789', '2022-01-01', 301, 50000.00, NULL, 1),
+       (2, 'Giovanna', 'Verde', 'giovanna.verde@email.com', '987654321', '2022-06-01', 302, 60000.00, NULL, 2),
+       (3, 'Marco', 'Gialli', 'marco.gialli@email.com', '111223344', '2022-03-01', 303, 70000.00, 203, 3);
+
+-- 1
+SELECT
+    d.id_dipartimento,
+    d.nome_dip,
+    m.id AS id_manager,
+    m.nome AS Nome_Manager,
+    DATE_FORMAT(dip.data_assunzione, '%M %e, %Y') AS Data_Assunzione_Formattata
+FROM
+    Dipartimento d
+LEFT JOIN
+    Dipendente dip ON d.id_dipartimento = dip.id_dipartimento
+LEFT JOIN
+    Dipendente m ON d.id_manager = m.id
+WHERE
+    d.nome_dip = 'Amministrazione';
+
+-- Inserimento di ulteriori dati nella tabella Dipendente
+INSERT INTO Dipendente (id, nome, cognome, email, numerotelefono, data_assunzione, id_lavoro, salario, id_manager, id_dipartimento)
+VALUES 
+    (4, 'Francesca', 'Rosso', 'francesca.rosso@email.com', '555111222', '2022-04-01', 304, 55000.00, 201, 1),
+    (5, 'Alessio', 'Neri', 'alessio.neri@email.com', '999888777', '2022-07-15', 305, 65000.00, 202, 2),
+    (6, 'Elena', 'Marrone', 'elena.marrone@email.com', '111222333', '2022-09-20', 306, 75000.00, NULL, 3),
+    (7, 'Luigi', 'Celeste', 'luigi.celeste@email.com', '777888999', '2022-11-05', 307, 85000.00, 203, 3),
+    (8, 'Chiara', 'Blu', 'chiara.blu@email.com', '444555666', '2022-03-10', 308, 95000.00, 201, 1),
+    (9, 'Roberto', 'Verde', 'roberto.verde@email.com', '222333444', '2022-12-01', 309, 105000.00, 202, 2),
+    (10, 'Giulia', 'Arancione', 'giulia.arancione@email.com', '666777888', '2022-08-15', 310, 115000.00, NULL, 1),
+    (11, 'Giacomo', 'Rosa', 'giacomo.rosa@email.com', '123987654', '2022-06-20', 311, 125000.00, 203, 3),
+    (12, 'Marta', 'Viola', 'marta.viola@email.com', '789654123', '2022-04-05', 312, 135000.00, NULL, 2),
+    (13, 'Simone', 'Giallo', 'simone.giallo@email.com', '321456987', '2022-09-10', 313, 145000.00, 201, 2),
+    (14, 'Cristina', 'Blu', 'cristina.blu@email.com', '555444333', '2022-10-01', 314, 155000.00, 203, 3),
+    (15, 'Davide', 'Marrone', 'davide.marrone@email.com', '666777888', '2022-05-15', 315, 165000.00, 201, 1);
+SELECT * FROM Dipendente;
+
+-- 2
+SELECT nome, cognome FROM Dipendente WHERE MONTH(data_assunzione) = 6;
+
+-- 3
+
+SELECT YEAR(data_assunzione) AS Anno, COUNT(*) AS NumeroDipendenti
+FROM Dipendente
+GROUP BY YEAR(data_assunzione)
+HAVING COUNT(*) > 10;
+
+-- 4
+SELECT
+    d.nome_dip AS Nome_Dipartimento,
+    m.nome AS Nome_Manager,
+    m.salario AS Salario_Manager
+FROM
+    Dipartimento d
+JOIN
+    Dipendente m ON d.id_manager = m.id
+WHERE
+    YEAR(NOW()) - YEAR(m.data_assunzione) > 5
+    OR (
+        YEAR(NOW()) - YEAR(m.data_assunzione) = 5
+        AND MONTH(NOW()) > MONTH(m.data_assunzione)
+    );
